@@ -1,8 +1,8 @@
 #!/bin/bash
 
 AMI_ID="0055977a6e828a4f" 
-ZONE_ID="Z083970011QGFE38SJQH9"
-DOMAIN_NAME=mohammed.world
+ZONE_ID="Z094419812INLUKCNAQ42"
+DOMAIN_NAME=nazeer.shop
 
 for instance in $@
 do
