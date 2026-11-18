@@ -3,11 +3,10 @@
 SOURCE_DIR=$1
 DEST_DIR=$2
 DAYS=${3:-14}
-TIMESTAMP=$(date "+%d-%m-%Y %H:%M:%S")
 
 if [ -z "$SOURCE_DIR" ] || [ -z "$DEST_DIR" ]; then
     echo "ERROR:: Either source_dir or dest_dir empty"
-    echo "USAGE:: $0 <source_dir> <dest_dir> <days(optional) to 14>"
+    echo "USAGE:: $0 <source_dir> <dest_dir> <days(optional) default to 14>"
     exit 1
 fi
 
@@ -21,25 +20,24 @@ if [ ! -d "$DEST_DIR" ]; then
     exit 1
 fi
 
-FILES=$(find $SOURCE_DIR -type f -name "*.log" -mtime +$DAYS)
+FILES=$(find "$SOURCE_DIR" -type f -name "*.log" -mtime +$DAYS)
 
 if [ -z "$FILES" ]; then
     echo "no log files found older than 14 days"
     exit 0
 fi
 
-ARCHIVE_FILE="$DEST_DIR/archive_file.tar.gz $TIMESTAMP"
-
-tar -czvf "$ARCHIVE_FILE" $FILES
+ARCHIVAL_FILE="$DEST_DIR/logs_archive-$TIMESTAMP.tar.gz"
+tar -czvf "$ARCHIVAL_FILE" $FILES
 
 if [ $? -eq 0 ]; then
-    echo "Archival is SUCCESS"
+        echo "ARCHIVAL is ...SUCCESS"
         while IFS= read -r FILE
-            do
+        do
             echo "file is $FILE"
-                rm -rf $FILE
-            echo "files $FILES deleted"          
-            done <<< "$FILES"
-else
-    echo "ERROR ARCHIVAL IS FAILED"
+                  rm -rf $FILE
+            echo "files $FILE deleted"
+        done <<< "$FILES"
+    else
+        echo "ERROR ARCHIVAL is ...FAILED"
 fi
