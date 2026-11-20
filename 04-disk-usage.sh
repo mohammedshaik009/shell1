@@ -7,7 +7,7 @@ while IFS= read -r LINE
 do
     USAGE=$(echo $LINE | cut -d "%" -f1 | awk -F '{print $6}')
     PARTITION=$(echo $LINE | awk '{print $7}')
-    if [ $USAGE -gt $USAGE_THRESHOLD ]; then
+    if [ $USAGE -ge $USAGE_THRESHOLD ]; then
         MESSAGE+="High disk usage on $PARTITION: $USAGE \n"
     fi
 
